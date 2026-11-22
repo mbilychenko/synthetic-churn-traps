@@ -1,0 +1,10 @@
+{
+  "id": "q01",
+  "title": "Q1 2026 churn rate",
+  "question": "Show me the churn rate for Q1 2026.",
+  "metrics": {
+    "churn_rate_pct": 6.34,
+    "churned": 262,
+    "paying_jan_1": 4132
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "q05",
+  "title": "Churn prediction: three builds",
+  "question": "Build a model that scores every paying account by its risk of churning in Q1 2026.",
+  "metrics": {
+    "auc_manual": 0.769,
+    "auc_automl_all_columns": 0.986,
+    "auc_automl_point_in_time": 0.812,
+    "auc_human_ai": 0.842,
+    "n_features": {
+      "manual": 14,
+      "automl": 31,
+      "human_ai": 9
+    },
+    "automl_top_features": [
+      "days_since_last_cancellation",
+      "days_since_last_login",
+      "account_status",
+      "min_last3"
+    ],
+    "cohort": 4092,
+    "positive_rate": 0.0533
+  }
+}

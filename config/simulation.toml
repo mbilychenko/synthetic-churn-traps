@@ -1,0 +1,199 @@
+# =============================================================================
+# Simulation config for a fictional B2B SaaS company.
+#
+# Every number here is an invented, hand-chosen assumption about how a
+# per-seat SaaS business behaves. None is measured from, calibrated on, or
+# copied from any real company or dataset.
+# =============================================================================
+
+seed = 8
+
+[calendar]
+first_month = "2023-01"
+n_months = 46                     # 2023-01 .. 2026-10
+export_date = "2026-10-31"        # the day the data was "exported"
+
+# --------------------------------------------------------------------------- #
+# Acquisition
+# --------------------------------------------------------------------------- #
+[signups]
+base_per_month = 205              # trial signups in month 0
+growth_per_month = 7.2            # linear growth in signups per month
+noise_sd = 14
+trial_days = 14
+
+[accounts]
+company_sizes = ["1-10", "11-50", "51-200", "201-1000", "1000+"]
+company_size_probs = [0.30, 0.32, 0.22, 0.11, 0.05]
+seat_range_by_size = [[2, 8], [5, 30], [15, 80], [40, 200], [100, 450]]
+channels = ["organic", "paid_search", "referral", "partner", "outbound_sales"]
+channel_probs_by_size = [
+    [0.36, 0.30, 0.14, 0.12, 0.08],
+    [0.33, 0.27, 0.14, 0.13, 0.13],
+    [0.25, 0.18, 0.13, 0.14, 0.30],
+    [0.12, 0.08, 0.10, 0.15, 0.55],
+    [0.05, 0.03, 0.07, 0.15, 0.70],
+]
+industries = ["Software", "Retail & E-commerce", "Healthcare", "Financial Services", "Manufacturing",
+              "Education", "Media", "Professional Services", "Nonprofit", "Logistics", "Government"]
+industry_weights = [0.20, 0.13, 0.10, 0.10, 0.10, 0.08, 0.07, 0.11, 0.04, 0.06, 0.004]
+countries = ["US", "GB", "DE", "CA", "FR", "NL", "AU", "PL", "ES", "SE", "IN", "BR", "UA", "IE", "DK"]
+country_weights = [0.34, 0.10, 0.09, 0.07, 0.06, 0.05, 0.05, 0.04, 0.04, 0.03, 0.04, 0.03, 0.02, 0.02, 0.02]
+deleted_account_rate = 0.003      # accounts erased from the CRM on request (their billing events remain)
+
+# --------------------------------------------------------------------------- #
+# Latent engagement: an unobserved per-account trait plus monthly drift
+# --------------------------------------------------------------------------- #
+[engagement]
+effect_referral = 0.30
+effect_paid_search = -0.25
+ar_coefficient = 0.93
+monthly_noise_sd = 0.22
+champion_left_monthly_prob = 0.012   # the internal advocate leaves the customer company
+champion_left_drop = 1.6
+after_decision_drop = 1.2            # people stop using a product they decided to leave
+free_plan_drop = 0.8
+reactivation_boost = 0.8
+
+[onboarding]                          # logistic: P(onboarding completed during trial)
+intercept = 0.2
+engagement = 0.9
+
+[integrations]                        # Poisson log-rate
+intercept = -0.3
+engagement = 0.45
+size_51_plus = 0.35
+
+[trial_conversion]                    # logistic: P(trial converts to paid)
+intercept = -0.95
+engagement = 0.8
+onboarding = 0.9
+outbound_sales = 0.6
+convert_day_min = 5
+convert_day_max = 15                  # exclusive
+
+# --------------------------------------------------------------------------- #
+# Plans and pricing
+# --------------------------------------------------------------------------- #
+[plans]
+names = ["Starter", "Growth", "Enterprise"]
+probs_by_size = [[0.80, 0.19, 0.01], [0.50, 0.45, 0.05], [0.15, 0.60, 0.25], [0.03, 0.42, 0.55], [0.0, 0.20, 0.80]]
+annual_probs = [0.15, 0.35, 0.75]
+price_per_seat = { Starter = 15.0, Growth = 35.0, Enterprise = 60.0 }
+annual_discount = 0.85
+
+[price_change]                        # list-price change for one plan / billing cycle
+plan = "Starter"
+billing_cycle = "monthly"
+effective_date = "2026-02-01"
+new_price_per_seat = 18.0
+risk_months = 2                       # months after the change during which churn risk is raised
+
+# --------------------------------------------------------------------------- #
+# Product usage (monthly)
+# --------------------------------------------------------------------------- #
+[usage]
+active_share_intercept = 0.4          # logistic share of seats active
+active_share_engagement = 1.0
+sessions_log_base = 2.3
+sessions_log_engagement = 0.35
+reports_per_session = 0.15
+api_log_base = 4.0
+api_log_engagement = 0.3
+minutes_base = 14.0
+minutes_engagement = 3.0
+minutes_sd = 4.0
+last_login_max_lag_days = 6
+
+# --------------------------------------------------------------------------- #
+# Voluntary churn: monthly logistic hazard of deciding to leave
+# --------------------------------------------------------------------------- #
+[churn_hazard]
+intercept = -5.25
+low_usage_previous_month = 2.40       # applies when < low_usage_threshold of seats were active last month
+low_usage_threshold = 0.35
+negative_engagement = 0.80            # times max(0, -engagement)
+onboarding_completed = -0.40
+per_integration = -0.20               # capped at 3 integrations
+plan_starter = 0.45
+plan_enterprise = -0.25
+price_change_exposure = 1.20
+early_tenure = 1.30                   # first two months as a paying customer
+champion_left_recently = 1.60         # champion left 1-4 months ago
+enterprise_low_usage = -0.70          # contract inertia
+company_size_1_10 = 0.30
+annual_renewal_window = 1.40          # annual contracts can only be left near renewal ...
+annual_window_days = 75               # ... i.e. within this many days of the term end
+
+[churn_process]
+request_gap_days = [2, 15]            # decision -> cancel request (days, max exclusive)
+downgrade_to_free_prob = 0.15         # non-Enterprise customers who downgrade instead of cancelling
+money_back_days = 30
+money_back_prob = 0.85
+goodwill_refund_prob_annual = 0.50
+goodwill_refund_prob_monthly = 0.12
+exit_survey_prob = 0.60
+reactivate_within_90d_prob = 0.10
+reactivate_later_prob = 0.06
+involuntary_reactivate_within_90d_prob = 0.30
+involuntary_reactivate_later_prob = 0.05
+
+[involuntary_churn]
+monthly_prob = 0.003                  # failed card payment
+recover_prob = 0.55
+recover_days = [3, 11]
+grace_days = 14
+
+[billing_operations]
+same_day_cancel_reactivate_prob = 0.003   # billing-system migrations / card re-entry
+migration_reason_prob = 0.30
+seat_change_monthly_prob = 0.025
+seat_change_factor = [0.7, 1.4]
+free_upgrade_monthly_prob = 0.015
+
+cancellation_reasons = ["too_expensive", "missing_features", "low_usage", "switched_competitor",
+                        "budget_cuts", "company_closed", "other", ""]
+cancellation_reason_probs = [0.18, 0.12, 0.17, 0.10, 0.08, 0.03, 0.07, 0.25]
+
+# --------------------------------------------------------------------------- #
+# Support desk
+# --------------------------------------------------------------------------- #
+[support]
+monthly_rate = 0.055                  # product tickets per active account-month ...
+seat_exponent = 0.2                   # ... times (seats / 10) ^ seat_exponent
+product_categories = ["how_to", "bug", "integration", "feature_request", "billing", "account_access"]
+product_category_probs = [0.35, 0.25, 0.15, 0.10, 0.10, 0.05]
+product_csat_mean = 4.1
+leaving_contact_prob = 0.38           # customers who decided to leave and contact support on the way out
+leaving_second_ticket_prob = 0.30
+leaving_categories = ["cancellation", "billing", "data_export", "account_access", "how_to"]
+leaving_category_probs = [0.40, 0.25, 0.20, 0.05, 0.10]
+leaving_csat_mean = 2.4
+csat_response_prob = 0.6
+first_response_log_mean = 1.6
+first_response_log_sd = 0.9
+
+[nps]
+response_prob = 0.45
+mean = 7.3
+engagement = 1.0
+sd = 2.0
+
+# --------------------------------------------------------------------------- #
+# Internal accounts and export artefacts (things real exports contain)
+# --------------------------------------------------------------------------- #
+[internal_accounts]
+count = 32                            # QA accounts on the production billing system
+email_domain = "qa-internal.example"
+cancel_flow_test_monthly_prob = 0.12
+
+[export_artefacts]
+legacy_billing_cutover = "2024-06-01"     # billing_v1 before this date, billing_v2 after
+legacy_mrr_in_cents_from = "2024-03-01"   # billing_v1 wrote MRR in cents from this date
+trailing_space_plan_prob = 0.02
+placeholder_timestamp_rows = 7
+duplicate_ingestion_fraction = 0.012
+industry_missing_prob = 0.07
+company_size_missing_prob = 0.04
+tracking_outage_month = "2025-08"
+tracking_outage_capture = 0.4             # share of sessions/reports captured during the outage
