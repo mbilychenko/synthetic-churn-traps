@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synthetic-churn-traps"
+version = "1.0.0"
+description = "A fully synthetic B2B SaaS dataset and the analysis pipeline that answers churn questions from it."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT (code), CC BY 4.0 (data and docs)" }
+authors = [{ name = "Maksym Bilychenko" }]
+dependencies = ["numpy>=2.0", "pandas>=2.2"]
+
+[project.optional-dependencies]
+analysis = ["scikit-learn>=1.5", "lightgbm>=4.0", "scipy>=1.11"]
+notebook = ["matplotlib>=3.8", "jupyter"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = ["slow: regenerates the full dataset (~15 s each)"]

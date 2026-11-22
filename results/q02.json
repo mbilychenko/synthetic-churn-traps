@@ -1,0 +1,22 @@
+{
+  "id": "q02",
+  "title": "Churn definition sensitivity",
+  "question": "Which business decisions are hidden inside the Q1 churn number, and how much does each one move it?",
+  "metrics": {
+    "base_pct": 6.34,
+    "variants_pct": {
+      "Does a refund count as lost?": 4.91,
+      "Which date do we attribute the cancellation to?": 6.95,
+      "If they reactivate the same day, did they churn?": 5.25,
+      "If they reactivate within 90 days, did they churn?": 5.74,
+      "Which denominator do we use?": 6.04,
+      "Do expired trials or downgrades to Free count?": 9.13
+    },
+    "range_pct": [
+      4.91,
+      9.13
+    ],
+    "combined_strict_pct": 4.95,
+    "without_internal_pct": 6.17
+  }
+}

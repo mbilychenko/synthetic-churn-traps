@@ -1,0 +1,139 @@
+{
+  "q00": {
+    "rows": {
+      "customer_accounts": 16929,
+      "subscription_events": 46370,
+      "support_tickets": 8908,
+      "product_usage_monthly": 121910
+    },
+    "duplicate_event_rows": 550,
+    "placeholder_timestamps": 7,
+    "orphan_account_ids": 52,
+    "internal_accounts": 32,
+    "internal_account_cancellations": 110,
+    "plan_label_variants": 15,
+    "mrr_scale_anomaly_months": [
+      "2024-03",
+      "2024-04",
+      "2024-05"
+    ],
+    "mrr_rows_in_anomaly": 757,
+    "usage_outage_months": [
+      "2025-08"
+    ],
+    "nulls": {
+      "industry": 1170,
+      "company_size": 630,
+      "last_nps_score": 13633,
+      "cancellation_reason": 15960
+    },
+    "accounts_lost_by_dropna": 1761,
+    "export_time_columns": [
+      "account_status",
+      "current_plan",
+      "current_seats",
+      "current_mrr",
+      "cancellation_reason",
+      "last_cancellation_date",
+      "last_login_date",
+      "last_nps_score"
+    ]
+  },
+  "q01": {
+    "churn_rate_pct": 6.34,
+    "churned": 262,
+    "paying_jan_1": 4132
+  },
+  "q02": {
+    "base_pct": 6.34,
+    "variants_pct": {
+      "Does a refund count as lost?": 4.91,
+      "Which date do we attribute the cancellation to?": 6.95,
+      "If they reactivate the same day, did they churn?": 5.25,
+      "If they reactivate within 90 days, did they churn?": 5.74,
+      "Which denominator do we use?": 6.04,
+      "Do expired trials or downgrades to Free count?": 9.13
+    },
+    "range_pct": [
+      4.91,
+      9.13
+    ],
+    "combined_strict_pct": 4.95,
+    "without_internal_pct": 6.17
+  },
+  "q03": {
+    "cohort": 4092,
+    "churn_rate": 0.0533,
+    "lifts": {
+      "<35% of seats active in Dec 2025": 5.03,
+      "Active users down >50% from 12-month peak": 4.63,
+      "Starter plan, monthly billing (price change Feb 2026)": 3.48,
+      "Contacted support in Q1": 3.46,
+      "Company size 1-10": 2.73,
+      "Onboarding not completed": 1.93,
+      "No integrations": 1.43,
+      "Paying for < 3 months": 0.98,
+      "Annual contract NOT up for renewal in Q1": 0.01
+    },
+    "cancel_requests_by_month": {
+      "Other": {
+        "2025-10": 1,
+        "2025-11": 0,
+        "2025-12": 5,
+        "2026-01": 21,
+        "2026-02": 21,
+        "2026-03": 26
+      },
+      "Starter monthly": {
+        "2025-10": 4,
+        "2025-11": 1,
+        "2025-12": 13,
+        "2026-01": 20,
+        "2026-02": 40,
+        "2026-03": 59
+      }
+    },
+    "small_segment": {
+      "segment": "Media/BR",
+      "n": 10,
+      "churned": 2,
+      "rate": 0.2,
+      "fisher_p": 0.096,
+      "n_small_segments": 79
+    }
+  },
+  "q04": {
+    "ratio_all_tickets": 3.46,
+    "churn_contacted": 0.1242,
+    "churn_not_contacted": 0.0359,
+    "n_contacted": 805,
+    "share_tickets_0_14d_before_request": 0.703,
+    "ratio_product_tickets_only": 1.4,
+    "csat_churners": 2.77,
+    "csat_retained": 4.01,
+    "median_frt_churners": 4.5,
+    "median_frt_retained": 5.15
+  },
+  "q05": {
+    "auc_manual": 0.769,
+    "auc_automl_all_columns": 0.986,
+    "auc_automl_point_in_time": 0.812,
+    "auc_human_ai": 0.842,
+    "n_features": {
+      "manual": 14,
+      "automl": 31,
+      "human_ai": 9
+    },
+    "automl_top_features": [
+      "days_since_last_cancellation",
+      "days_since_last_login",
+      "account_status",
+      "min_last3"
+    ],
+    "cohort": 4092,
+    "positive_rate": 0.0533
+  },
+  "q06": {
+    "n_questions": 20
+  }
+}

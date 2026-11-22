@@ -1,0 +1,8 @@
+{
+  "id": "q06",
+  "title": "Golden set",
+  "question": "Which questions with known answers should any automated analysis of this data get right?",
+  "metrics": {
+    "n_questions": 20
+  }
+}

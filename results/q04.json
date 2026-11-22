@@ -1,0 +1,17 @@
+{
+  "id": "q04",
+  "title": "Support contact and churn",
+  "question": "Customers who contacted support churn far more often. Is support causing churn, and would investing in support quality reduce it?",
+  "metrics": {
+    "ratio_all_tickets": 3.46,
+    "churn_contacted": 0.1242,
+    "churn_not_contacted": 0.0359,
+    "n_contacted": 805,
+    "share_tickets_0_14d_before_request": 0.703,
+    "ratio_product_tickets_only": 1.4,
+    "csat_churners": 2.77,
+    "csat_retained": 4.01,
+    "median_frt_churners": 4.5,
+    "median_frt_retained": 5.15
+  }
+}

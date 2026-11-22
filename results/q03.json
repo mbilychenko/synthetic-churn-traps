@@ -1,0 +1,46 @@
+{
+  "id": "q03",
+  "title": "Churn drivers (EDA)",
+  "question": "What drove churn in Q1 2026? Compare churned vs retained accounts on every signal and rank the drivers.",
+  "metrics": {
+    "cohort": 4092,
+    "churn_rate": 0.0533,
+    "lifts": {
+      "<35% of seats active in Dec 2025": 5.03,
+      "Active users down >50% from 12-month peak": 4.63,
+      "Starter plan, monthly billing (price change Feb 2026)": 3.48,
+      "Contacted support in Q1": 3.46,
+      "Company size 1-10": 2.73,
+      "Onboarding not completed": 1.93,
+      "No integrations": 1.43,
+      "Paying for < 3 months": 0.98,
+      "Annual contract NOT up for renewal in Q1": 0.01
+    },
+    "cancel_requests_by_month": {
+      "Other": {
+        "2025-10": 1,
+        "2025-11": 0,
+        "2025-12": 5,
+        "2026-01": 21,
+        "2026-02": 21,
+        "2026-03": 26
+      },
+      "Starter monthly": {
+        "2025-10": 4,
+        "2025-11": 1,
+        "2025-12": 13,
+        "2026-01": 20,
+        "2026-02": 40,
+        "2026-03": 59
+      }
+    },
+    "small_segment": {
+      "segment": "Media/BR",
+      "n": 10,
+      "churned": 2,
+      "rate": 0.2,
+      "fisher_p": 0.096,
+      "n_small_segments": 79
+    }
+  }
+}
